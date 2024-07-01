@@ -1,0 +1,95 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/a/RAM64.hdl
+/**
+ * Memory of sixty four 16-bit registers.
+ * If load is asserted, the value of the register selected by
+ * address is set to in; Otherwise, the value does not change.
+ * The value of the selected register is emitted by out.
+ */
+CHIP RAM64 {
+    IN in[16], load, address[6];
+    OUT out[16];
+
+    PARTS:
+
+    DMux8Way(
+        in=load,
+        sel[0]=address[0],
+        sel[1]=address[1],
+        sel[2]=address[2],
+        a=g1, b=g2, c=g3, d=g4, e=g5, f=g6, g=g7, h=g8
+    );
+    RAM8(
+        in=in,load=g1, 
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5], 
+        out=o1
+    );
+    RAM8(
+        in=in,load=g2,
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5],
+        out=o2
+    );
+    RAM8(
+        in=in,load=g3, 
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5],
+        out=o3
+    );
+    RAM8(
+        in=in,load=g4, 
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5], 
+        out=o4
+    );
+    RAM8(
+        in=in,load=g5, 
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5],
+        out=o5
+    );
+    RAM8(
+        in=in,load=g6, 
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5], 
+        out=o6
+    );
+    RAM8(
+        in=in,load=g7, 
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5], 
+        out=o7
+    );
+    RAM8(
+        in=in,load=g8, 
+        address[0]=address[3],
+        address[1]=address[4],
+        address[2]=address[5], 
+        out=o8
+    );
+
+    Mux8Way16(
+        a=o1,
+        b=o2,
+        c=o3,
+        d=o4,
+        e=o5,
+        f=o6,
+        g=o7,
+        h=o8,
+        sel[0]=address[0],
+        sel[1]=address[1],
+        sel[2]=address[2],
+        out=out
+    );
+}
